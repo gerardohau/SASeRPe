@@ -19,4 +19,5 @@ public interface IRemoteTransaccion extends Remote {
     public int delete(Transaccion t) throws RemoteException;
     public void deleteAll() throws RemoteException;
     public ArrayList findAll() throws RemoteException;
+    public ArrayList findByRFCU(String Rfcu) throws RemoteException;
 }

@@ -68,5 +68,14 @@ public class TransaccionObject extends UnicastRemoteObject implements IRemoteTra
         }
         return TransaccionRepository.findAll();
     }
+    
+    public ArrayList findByRFCU(String Rfcu) throws RemoteException {
+        try {
+            System.out.println("Invoke findAll from " + getClientHost());
+        } catch (ServerNotActiveException snae) {
+            snae.printStackTrace();
+        }
+        return TransaccionRepository.findByRFCU(Rfcu);
+    }
 
 }

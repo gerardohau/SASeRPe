@@ -75,5 +75,14 @@ public class UsuarioObject extends UnicastRemoteObject implements IRemoteUsuario
         }
         return UsuarioRepository.findByCompany(criteria);
     }
+    
+    public ArrayList findByRFCU(String criteria) {
+        try {
+            System.out.println("Invoke findByCompany from " + getClientHost());
+        } catch (ServerNotActiveException snae) {
+            snae.printStackTrace();
+        }
+        return UsuarioRepository.findByRFCU(criteria);
+    }
 
 }
