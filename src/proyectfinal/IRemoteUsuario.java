@@ -20,5 +20,6 @@ public interface IRemoteUsuario extends Remote {
     public void deleteAll() throws RemoteException;
     public ArrayList findAll() throws RemoteException;
     public ArrayList findByCompany(String criteria) throws RemoteException;
+    public ArrayList findByRFCU(String criteria) throws RemoteException;
 
 }

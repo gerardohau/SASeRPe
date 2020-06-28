@@ -26,7 +26,7 @@ public class TransaccionRepository {
         int iRet = -1;
         try {
             Connection con = DBManager.getInstance().getConnection();
-            String SQL = "INSERT INTO Transaccion (RFCU, RFC, FechaOp, AccionesOp, PrecioAOp) values(?,?,?,?,?)";
+            String SQL = "INSERT INTO transaccion (RFCU, RFC, FechaOp, AccionesOp, PrecioAOp) values(?,?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, t.getRfcU());
@@ -55,7 +55,7 @@ public class TransaccionRepository {
         int iRet = -1;
         try {
             Connection con = DBManager.getInstance().getConnection();
-            String SQL = "UPDATE Transaccion SET FechaOp=?, AccionesOp=?, PrecioAOp=? WHERE RFCU=? AND RFC=?";
+            String SQL = "UPDATE transaccion SET FechaOp=?, AccionesOp=?, PrecioAOp=? WHERE RFCU=? AND RFC=?";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             java.util.Date dt = t.getFechaOp();
 
@@ -83,7 +83,7 @@ public class TransaccionRepository {
         int iRet = -1;
         try {
             Connection con = DBManager.getInstance().getConnection();
-            String SQL = "DELETE FROM Transaccion WHERE RFCU=? AND RFC=?";
+            String SQL = "DELETE FROM transaccion WHERE RFCU=? AND RFC=?";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, t.getRfcU());
             pstmt.setString(2, t.getRfc());
@@ -100,7 +100,7 @@ public class TransaccionRepository {
         Connection con = DBManager.getInstance().getConnection();
         try {
             con.setAutoCommit(false);
-            String SQL = "DELETE FROM Transaccion";
+            String SQL = "DELETE FROM transaccion";
             PreparedStatement pstmt = con.prepareStatement(SQL);
 
             pstmt.executeUpdate();
@@ -122,7 +122,7 @@ public class TransaccionRepository {
         ArrayList arr = new ArrayList();
 
         try {
-            String QRY = "SELECT * FROM Transaccion ORDER BY RFCU";
+            String QRY = "SELECT * FROM transaccion ORDER BY RFCU";
             Connection con = DBManager.getInstance().getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(QRY);
@@ -146,5 +146,34 @@ public class TransaccionRepository {
         }
         return arr;
     }
+    
+     public static ArrayList findByRFCU(String rfcu) {
+        ArrayList arr = new ArrayList();
 
+        try {
+            String QRY = "SELECT * FROM Transaccion WHERE rfcu=(?) ORDER BY rfcu";
+            Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(QRY);
+            pstmt.setString(1,rfcu);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Transaccion t = new Transaccion();
+                t.setRfcU(rs.getString("RFCU"));
+                t.setRfc(rs.getString("RFC"));
+                Timestamp ts = Timestamp.valueOf(rs.getString("FechaOp"));
+                Date date = new Date(ts.getTime());
+                t.setFechaOp(date);
+                t.setAccionesO(rs.getInt("AccionesOp"));
+                t.setPrecioAOp(rs.getFloat("PrecioAOp"));
+
+                arr.add(t);
+            }
+
+            pstmt.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        }
+        return arr;
+    }
 }

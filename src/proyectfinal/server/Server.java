@@ -7,13 +7,15 @@ package proyectfinal.server;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import proyectfinal.CompaniaObject;
+import proyectfinal.TransaccionObject;
 import proyectfinal.UsuarioObject;
 
 /**
  *
  * @author Esthefany
  */
-public class UsuarioServer {
+public class Server {
 
     /**
      * @param args the command line arguments
@@ -24,11 +26,17 @@ public class UsuarioServer {
       Registry registry = LocateRegistry.createRegistry(1099);
  
       //Instantiate server object
-      UsuarioObject uo = new UsuarioObject();
- 
+      UsuarioObject user = new UsuarioObject();
+      TransaccionObject transaccion = new TransaccionObject(); 
+      CompaniaObject company = new CompaniaObject();
+
+            //Register server object
+           
       //Register server object
-      registry.rebind("Usuario", uo);
-      System.out.println("UsuarioServer is created!!!");
+      registry.rebind("Usuario", user);
+      registry.rebind("Transaccion", transaccion);
+      registry.rebind("Compania", company);
+      System.out.println("Server's system  is created!!!");
     } catch (Exception e) {
       System.out.println(e);
     }

@@ -67,5 +67,5 @@ public class CompaniaObject extends UnicastRemoteObject implements IRemoteCompan
         }
         return CompaniaRepository.findAll();
     }
-
+    
 }

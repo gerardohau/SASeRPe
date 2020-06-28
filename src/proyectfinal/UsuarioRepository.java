@@ -148,4 +148,31 @@ public class UsuarioRepository {
         }
         return arr;
     }
+    
+    public static ArrayList findByRFCU(String rfcu) {
+        ArrayList arr = new ArrayList();
+
+        try {
+            String QRY = "SELECT * FROM Usuario WHERE RFCU=(?) ORDER BY rfcu";
+            Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(QRY);
+            pstmt.setString(1,rfcu);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.setRfcU(rs.getString("RFCU"));
+                u.setRfc(rs.getString("RFC"));
+                u.setNumA(rs.getInt("NumAcciones"));
+                u.setUpc(rs.getFloat("UltPrecioCompra"));
+                arr.add(u);
+            }
+
+            pstmt.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        }
+        return arr;
+    }
+    
 }
