@@ -1,7 +1,9 @@
 package proyectfinal.client;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import proyectfinal.Compania;
 import proyectfinal.IRemoteCompania;
@@ -31,7 +33,7 @@ public class Client {
      
      //Inicio de cliente
     System.out.println("====Sistema de compra - venta de acciones ====");
-    System.out.println("Por favor, introdusca su RFC Usuario para indeficicar "
+    System.out.println("Por favor, introdusca su RFC Usuario para identificar "
       + "y recuperar sus datos:");
     //Obtengo el rfc
     String userRfcu = inputUser.nextLine();
@@ -106,11 +108,23 @@ public class Client {
               "Introduce una oferta de venta"
               + " (debe ser menor al precio actual de las acciones de la empresa"
               + " para tener más posibilidades de consolidar tu venta)"  );
-            double precioVenta = inputUser.nextDouble();
+            float precioVenta = (float)inputUser.nextDouble();
             System.out.println("Recuento de información: "
               + companiaVenta +"-"+ accionesVenta +"-"+ precioVenta);
             
             //Aquí se realiza la transacción
+            Date fecha = new Date();
+            Transaccion transaccion_venta = new Transaccion();
+            transaccion_venta.setRfcU(userRfcu);
+            transaccion_venta.setRfc(companiaVenta);
+            transaccion_venta.setAccionesO(1);
+            transaccion_venta.setPrecioAOp(precioVenta);
+            transaccion_venta.setFechaOp(fecha);
+            transaccion_venta.setNumeroAcciones(accionesVenta);
+            
+            rtransacciones.save(transaccion_venta);
+            
+                  
             
             System.out.println("===============================================");
             break;
@@ -131,7 +145,7 @@ public class Client {
             
         case "4":  
             System.out.println(
-              "Por favor, introdusca su RFC Usuario para indeficicar "
+              "Por favor, introdusca su RFC Usuario para identificar "
               + "y recuperar sus datos:");
             //Obtengo el rfc
             userRfcu = inputUser.nextLine();

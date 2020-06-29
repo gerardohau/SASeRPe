@@ -26,7 +26,7 @@ public class TransaccionRepository {
         int iRet = -1;
         try {
             Connection con = DBManager.getInstance().getConnection();
-            String SQL = "INSERT INTO transaccion (RFCU, RFC, FechaOp, AccionesOp, PrecioAOp) values(?,?,?,?,?)";
+            String SQL = "INSERT INTO transaccion (RFCU, RFC, FechaOp, AccionesOp, PrecioAOp, NumeroAcciones) values(?,?,?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, t.getRfcU());
@@ -41,6 +41,7 @@ public class TransaccionRepository {
             pstmt.setString(3, currentTime);
             pstmt.setInt(4, t.getAccionesOp());
             pstmt.setFloat(5, t.getPrecioAOp());
+            pstmt.setInt(6, t.getNumeroAcciones());
             iRet = pstmt.executeUpdate();
 
             pstmt.close();

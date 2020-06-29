@@ -23,16 +23,18 @@ public class Transaccion implements Serializable {
     private Date fechaOp_;
     private int accionesOp_;
     private float precioAOp_;
+    private int numeroAcciones_;
 
     public Transaccion() {
     }
 
-    public Transaccion(String rfcU, String rfc, Date fechaOp, int accionesOp, float precioAOp) {
+    public Transaccion(String rfcU, String rfc, Date fechaOp, int accionesOp, float precioAOp, int numAcciones) {
         rfcU_ = rfcU;
         rfc_ = rfc;
         fechaOp_ = fechaOp;
         accionesOp_ = accionesOp;
         precioAOp_ = precioAOp;
+        numeroAcciones_ = numAcciones;
     }
 
     public String getRfcU() {
@@ -73,6 +75,14 @@ public class Transaccion implements Serializable {
 
     public void setPrecioAOp(float precioAOp) {
         this.precioAOp_ = precioAOp;
+    }
+    
+    public int getNumeroAcciones() {
+        return numeroAcciones_;
+    }
+    
+    public void setNumeroAcciones(int numAcciones) {
+       this.numeroAcciones_ = numAcciones;
     }
 
     public String toString() {
