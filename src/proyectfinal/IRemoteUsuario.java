@@ -21,5 +21,5 @@ public interface IRemoteUsuario extends Remote {
     public ArrayList findAll() throws RemoteException;
     public ArrayList findByCompany(String criteria) throws RemoteException;
     public ArrayList findByRFCU(String criteria) throws RemoteException;
-
+    public ArrayList findByComanyAndRFCU(String co, String user) throws RemoteException;
 }

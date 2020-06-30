@@ -179,7 +179,7 @@ public class UsuarioRepository {
         ArrayList arr = new ArrayList();
 
         try {
-            String QRY = "SELECT * FROM Usuario WHERE RFCU=? AND RFC=? ORDER BY rfcu";
+            String QRY = "SELECT * FROM Usuario WHERE RFCU=(?) AND RFC=(?)";
             Connection con = DBManager.getInstance().getConnection();
             PreparedStatement pstmt = con.prepareStatement(QRY);
             pstmt.setString(1,rfcu);

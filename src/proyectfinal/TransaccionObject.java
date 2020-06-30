@@ -37,11 +37,18 @@ public class TransaccionObject extends UnicastRemoteObject implements IRemoteTra
     public boolean realizarOferta(Transaccion t) throws RemoteException {
         contador +=1;
         System.out.println("==Contador de ofertas:"+contador +"===");
-        System.out.println((t.getOperacion() == 1) ? "Operación Venta":"Operación Compra" );
+        System.out.println((t.getAccionesOp() < 0) ? "Operación Venta":"Operación Compra" );
         
         //validar si la compania existe y si existe la cantidad de acciones es razonable
         ArrayList<Compania> coms = CompaniaRepository.findByRFC(t.getRfc()); 
         ArrayList<Usuario> usuarios = UsuarioRepository.findByRFCU(t.getRfcU());
+        ArrayList<Usuario> usuariosVentas = UsuarioRepository.findByCompanyAndRFCU(t.getRfc(),t.getRfcU());
+        boolean acciones = (-1*t.getAccionesOp()) > usuariosVentas.get(0).getNumA();
+        if(t.getAccionesOp() < 0 && acciones ){
+            System.out.println("Intentas vender más de lo que tienes");
+            return false;
+        }
+        
         if(usuarios.isEmpty()){
           System.out.println("No existe un usuario con RFC: " + t.getRfc());
           return false;
@@ -50,6 +57,7 @@ public class TransaccionObject extends UnicastRemoteObject implements IRemoteTra
             System.out.println("Lista vacia");
             return false;
         }
+        
         if(coms.get(0).getNumAD() <= t.getAccionesOp()){
             System.out.println("Acciones superiores a las disponibles");
             return false;

@@ -18,11 +18,11 @@ import proyectfinal.Transaccion;
  *
  * @author jorge
  */
-public class ClienTest2 {
+public class ClientTest4 {
     public static void main(String[] args) {
         String CompanyRFC = "1abcdr758r";
-        String userRFC = "mnbvcxz123";
-        //vender
+        String userRFC = "mnbvcxz348";
+        //Comprar
         //perdedor
         try {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1");
@@ -31,14 +31,14 @@ public class ClienTest2 {
             Transaccion transaccion_venta = new Transaccion();
             transaccion_venta.setRfcU(userRFC);
             transaccion_venta.setRfc(CompanyRFC);
-            transaccion_venta.setAccionesO(-2);
-            transaccion_venta.setOperacion(1);
-            transaccion_venta.setPrecioAOp(27.0f);
+            transaccion_venta.setAccionesO(2);
+            transaccion_venta.setOperacion(-1);
+            transaccion_venta.setPrecioAOp(60.3f);
             transaccion_venta.setFechaOp(fecha);
             transaccion_venta.setNumeroAcciones(2);
             System.out.println(CompanyRFC);
             boolean res = rtransacciones.realizarOferta(transaccion_venta);
-            System.out.println("client2");
+            System.out.println("client4");
             System.out.println(res);
         } catch (Exception ex) {
             Logger.getLogger(ClientTest.class.getName()).log(Level.SEVERE, null, ex);

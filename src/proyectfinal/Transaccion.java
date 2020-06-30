@@ -104,7 +104,8 @@ public class Transaccion implements Serializable {
     public String toString() {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return rfcU_ + " - " + rfc_ + " - " + dateFormat.format(fechaOp_) + " - " + accionesOp_ + " - " + precioAOp_;
+        return rfcU_ + " - " + rfc_ + " - " + dateFormat.format(fechaOp_) + " -Acciones Operacion " + 
+          accionesOp_ + " -Precio Actual de operacion " + precioAOp_;
     }
 
 }

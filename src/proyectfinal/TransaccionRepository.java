@@ -29,8 +29,8 @@ public class TransaccionRepository {
             String SQL = "INSERT INTO transaccion (RFCU, RFC, FechaOp, AccionesOp, PrecioAOp) values(?,?,?,?,?)";
 
             PreparedStatement pstmt = con.prepareStatement(SQL);
-            //pstmt.setString(1, t.getRfcU());
-            //pstmt.setString(2, t.getRfc());
+            pstmt.setString(1, t.getRfcU());
+            pstmt.setString(2, t.getRfc());
 
             java.util.Date dt = t.getFechaOp();
 

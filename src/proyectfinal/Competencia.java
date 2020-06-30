@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Competencia extends Thread {
     private ArrayList<Transaccion> ofertas = new ArrayList();
     private String keyCompany;
-    private int sleep= 15000;
+    private int sleep= 60000;
     
     public Competencia(String company){
         keyCompany= company;
@@ -33,76 +33,76 @@ public class Competencia extends Thread {
         ArrayList<Transaccion> ventas = new ArrayList();
         ArrayList<Transaccion> compras = new ArrayList();
         //Filtrar en vistas y compras
+        System.out.println("Filtro de vistas y compras");
         for (int a = 0; a < this.ofertas.size(); a++) {
             //ventas
-            if((this.ofertas.get(a).getOperacion() == 1) &&
+            System.out.println(this.ofertas.get(a).toString());
+            if((this.ofertas.get(a).getAccionesOp() < 0) &&
               (this.ofertas.get(a).getPrecioAOp() < company.getvTA()  )){
+                System.out.println(this.ofertas.get(a).toString());
                 ventas.add(ofertas.get(a));
             }
             
             //Compras
-            if((this.ofertas.get(a).getOperacion() == -1) &&
+            if((this.ofertas.get(a).getAccionesOp() > 0) &&
               (this.ofertas.get(a).getPrecioAOp() > company.getvTA()  )){
                 compras.add(ofertas.get(a));
             }
         }
         
-        //Competir ventas
-        System.out.println("Competir ventas");
+        System.out.println("==Competicion de ventas ==");
         Transaccion ganadorVenta = new Transaccion();
-        //marca error si no existe el get(0)
-        if(ventas.size() > 0 ){
-            ganadorVenta = ventas.get(0);
-            System.out.println(ventas.size());
-            //en el caso de que sea más de uno
-            if(ventas.size() > 1){
-                for (int i = 0; i < ventas.size(); i++) {
-                    System.out.println(compras.get(i).toString());
-                if (ventas.get(i).getPrecioAOp() <= ganadorVenta.getPrecioAOp()) {
-                    System.out.println(compras.get(i).toString());
-                    ganadorVenta = compras.get(i);
+        if(!ventas.isEmpty()){
+            float precioMenor = ventas.get(0).getPrecioAOp();
+            for (int g = 0; g < ventas.size(); g++) {
+                System.out.println(ventas.get(g));
+                if(ventas.get(g).getPrecioAOp() <= precioMenor){
+                    ganadorVenta = ventas.get(g);
+                    precioMenor = ventas.get(g).getPrecioAOp();
                 }
-            }
-            }
-          //Realizar modificación en la base de datos
-          //Actualizar compania
-         
-         System.out.println("aop"+ ganadorVenta.getPrecioAOp()+ "acciones"+ganadorVenta.getAccionesOp());
-          ganadorVenta.setStatus(true);  
-         // this.updateDB(ganadorVenta);   
+             }
+            System.out.println(ganadorVenta.toString());
+            this.updateDB(ganadorVenta);
+            ganadorVenta.setStatus(true);
         }
-        //Competir Compras
-        System.out.println("competir compras");
+        
+        //Competir ventas
+        System.out.println("==Competir compras==");
         Transaccion ganadorCompra = new Transaccion();
-        if(compras.size() > 0){
-            ganadorCompra = compras.get(0);
-            if(compras.size() > 1){
-            for (int j = 0; j < compras.size(); j++) {
-                if (compras.get(j).getPrecioAOp() >= ganadorCompra.getPrecioAOp()) {
-                    ganadorCompra = compras.get(j);
+         System.out.println("tamaño de compra");
+        if(!compras.isEmpty()){
+            float precioMayor = compras.get(0).getPrecioAOp();
+            for (int g = 0; g < compras.size(); g++) {
+                System.out.println(compras.get(g));
+                if(compras.get(g).getPrecioAOp() >= precioMayor){
+                    ganadorVenta = compras.get(g);
+                    precioMayor = compras.get(g).getPrecioAOp();
+                    System.out.println("Compras:"+ganadorVenta.toString());
                 }
             }
-            }
-            System.out.println(ganadorCompra.getPrecioAOp()+ganadorCompra.getAccionesOp());  
-          ganadorCompra.setStatus(true);
-         // this.updateDB(ganadorCompra);
+            System.out.println(ganadorVenta.toString());
+            this.updateDB(ganadorVenta);
+            ganadorVenta.setStatus(true);
         }
         
     }
     
     public void updateDB(Transaccion t){
         //venta
+        System.out.println("Update bd");
         ArrayList<Compania> coms = new ArrayList(); 
         ArrayList<Usuario> uss = new ArrayList();
-        if(t.getOperacion() == 1){
+        if(t.getAccionesOp() < 0){
             coms = CompaniaRepository.findByRFC(keyCompany);
-            System.out.println("Guardan datos 1");
-            coms.get(0).setNumAD(coms.get(0).getNumAD() + t.getAccionesOp());
+            System.out.println("compania" + coms.get(0).toString() );
+            coms.get(0).setNumAD(coms.get(0).getNumAD() + -1*(t.getAccionesOp()));
             coms.get(0).setvTA(t.getPrecioAOp());
             CompaniaRepository.update(coms.get(0));
             System.out.println("consultando datos");
-            uss = UsuarioRepository.findByCompanyAndRFCU(keyCompany,t.getRfcU());
-            uss.get(0).setNumA(uss.get(0).getNumA()-t.getAccionesOp());
+            System.out.println("Parameters: " + this.keyCompany +"--"+ t.getRfcU() );
+            uss = UsuarioRepository.findByCompanyAndRFCU(t.getRfc(),t.getRfcU());
+            System.out.println("Usuario:"+uss.toString());
+            uss.get(0).setNumA(uss.get(0).getNumA()+ t.getAccionesOp());
             uss.get(0).setUpc(t.getPrecioAOp());
             UsuarioRepository.update(uss.get(0));
         }
