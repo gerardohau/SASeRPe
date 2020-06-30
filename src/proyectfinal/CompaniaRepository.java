@@ -124,4 +124,31 @@ public class CompaniaRepository {
         return arr;
     }
     
+    public static ArrayList findByRFC(String rfcu) {
+        ArrayList arr = new ArrayList();
+
+        try {
+            String QRY = "SELECT * FROM Compania WHERE RFC=(?) ORDER BY rfc";
+            Connection con = DBManager.getInstance().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(QRY);
+            pstmt.setString(1,rfcu);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Compania c = new Compania();
+                c.setRfc(rs.getString("RFC"));
+                c.setNumTA(rs.getInt("NumTotalAcciones"));
+                c.setNumAD(rs.getInt("AccionesDisponibles"));
+                c.setvTA(rs.getFloat("ValorActualAccion"));
+                arr.add(c);
+            }
+
+            pstmt.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        }
+        return arr;
+    }
+    
+    
 }

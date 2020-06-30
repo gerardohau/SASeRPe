@@ -121,9 +121,20 @@ public class Client {
             transaccion_venta.setPrecioAOp(precioVenta);
             transaccion_venta.setFechaOp(fecha);
             transaccion_venta.setNumeroAcciones(accionesVenta);
+            //Operación de compras
+            transaccion_venta.setOperacion(1);
             
-            rtransacciones.save(transaccion_venta);
+            boolean result =rtransacciones.realizarOferta(transaccion_venta);
+            if(result){
+              System.out.println("Se ha realiza con exito su transacción, \n"
+               + "Regrese al menú y revise su estado de acciones \n "
+                + "y transacción");
             
+            }else{
+              System.out.println("No se ha realizado su transacción, \n"
+                + "gracias por participar. Realize una nueva transacción \n"
+                + " y suerte");  
+            }
                   
             
             System.out.println("===============================================");

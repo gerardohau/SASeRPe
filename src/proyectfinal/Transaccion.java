@@ -16,7 +16,7 @@ import java.util.Date;
  * @author Esthefany
  */
 public class Transaccion implements Serializable {
-
+    private boolean status = false;
     private static final long serialVersionUID = 1L;
     private String rfcU_;
     private String rfc_;
@@ -24,7 +24,7 @@ public class Transaccion implements Serializable {
     private int accionesOp_;
     private float precioAOp_;
     private int numeroAcciones_;
-
+    private int operacion_;
     public Transaccion() {
     }
 
@@ -84,7 +84,23 @@ public class Transaccion implements Serializable {
     public void setNumeroAcciones(int numAcciones) {
        this.numeroAcciones_ = numAcciones;
     }
+    
+    public int getOperacion() {
+        return operacion_;
+    }
+    
+    public void setOperacion(int operacion) {
+       this.operacion_ = operacion;
+    }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     public String toString() {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -8,6 +8,7 @@ package proyectfinal.server;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import proyectfinal.CompaniaObject;
+import proyectfinal.ManejadorEstadoTransaccion;
 import proyectfinal.TransaccionObject;
 import proyectfinal.UsuarioObject;
 
@@ -27,11 +28,11 @@ public class Server {
  
       //Instantiate server object
       UsuarioObject user = new UsuarioObject();
-      TransaccionObject transaccion = new TransaccionObject(); 
       CompaniaObject company = new CompaniaObject();
 
-            //Register server object
-           
+      //Register state server
+      ManejadorEstadoTransaccion mt = new ManejadorEstadoTransaccion();
+       TransaccionObject transaccion = new TransaccionObject(mt);      
       //Register server object
       registry.rebind("Usuario", user);
       registry.rebind("Transaccion", transaccion);
