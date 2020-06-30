@@ -31,11 +31,10 @@ public class ClientTest {
             Transaccion transaccion_venta = new Transaccion();
             transaccion_venta.setRfcU(userRFC);
             transaccion_venta.setRfc(CompanyRFC);
-            transaccion_venta.setAccionesO(2);
+            transaccion_venta.setAccionesO(-2);
             transaccion_venta.setPrecioAOp(15.12f);
             transaccion_venta.setFechaOp(fecha);
             transaccion_venta.setNumeroAcciones(4);
-            transaccion_venta.setOperacion(1);
             System.out.println(CompanyRFC);
             boolean res = rtransacciones.realizarOferta(transaccion_venta);
             System.out.println("client1");

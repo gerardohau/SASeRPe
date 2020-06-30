@@ -79,14 +79,42 @@ public class Client {
               "Introduce una oferta de compra"
               + " (debe ser mayor al precio actual de las acciones acomprar"
               + " para tener más posibilidades de obtener la compra )"  );
-            double precio = inputUser.nextDouble();
+            float precio = inputUser.nextFloat();
             System.out.println("Recuento de información: "
               + compania+"-" + acciones+"-" + precio);
             
             //Aquí se realiza la transacción
+            //Aquí se realiza la transacción
+            Date fechaCompra = new Date();
+            Transaccion transaccion_compra = new Transaccion();
+            transaccion_compra.setRfcU(userRfcu);
+            transaccion_compra.setRfc(compania);
+            transaccion_compra.setAccionesO(acciones < 0 ? acciones: -acciones);
+            transaccion_compra.setPrecioAOp(precio);
+            transaccion_compra.setFechaOp(fechaCompra);
+            
+            //Operación de compras
+            
+            boolean resultoper =rtransacciones.realizarOferta(transaccion_compra);
+            if(resultoper){
+              System.out.println("Se ha realiza con exito su transacción, \n"
+               + "Regrese al menú y revise su estado de acciones \n "
+                + "y transacción");
+            
+            }else{
+              System.out.println("No se ha realizado su transacción, \n"
+                + "gracias por participar. Realize una nueva transacción \n"
+                + " y suerte");  
+            }
+                  
             
             System.out.println("===============================================");
-            
+            infoUsuario = user.findByRFCU(userRfcu);
+            infoUsuario.stream().forEach(e -> {
+            System.out.println("| Empresa: "+e.getRfc() +" | Acciones: " + 
+              e.getNumA() +" | Último precio de compra : " + e.getUpc() + " | " );
+            });
+            System.out.println("===============================================");
             break;
         case "2":
             System.out.println(
@@ -108,7 +136,7 @@ public class Client {
               "Introduce una oferta de venta"
               + " (debe ser menor al precio actual de las acciones de la empresa"
               + " para tener más posibilidades de consolidar tu venta)"  );
-            float precioVenta = (float)inputUser.nextDouble();
+            float precioVenta = inputUser.nextFloat();
             System.out.println("Recuento de información: "
               + companiaVenta +"-"+ accionesVenta +"-"+ precioVenta);
             
@@ -117,12 +145,11 @@ public class Client {
             Transaccion transaccion_venta = new Transaccion();
             transaccion_venta.setRfcU(userRfcu);
             transaccion_venta.setRfc(companiaVenta);
-            transaccion_venta.setAccionesO(1);
+            transaccion_venta.setAccionesO(accionesVenta < 0 ? accionesVenta: -accionesVenta);
             transaccion_venta.setPrecioAOp(precioVenta);
             transaccion_venta.setFechaOp(fecha);
-            transaccion_venta.setNumeroAcciones(accionesVenta);
+            
             //Operación de compras
-            transaccion_venta.setOperacion(1);
             
             boolean result =rtransacciones.realizarOferta(transaccion_venta);
             if(result){
@@ -137,6 +164,12 @@ public class Client {
             }
                   
             
+            System.out.println("===============================================");
+            infoUsuario = user.findByRFCU(userRfcu);
+            infoUsuario.stream().forEach(e -> {
+            System.out.println("| Empresa: "+e.getRfc() +" | Acciones: " + 
+              e.getNumA() +" | Último precio de compra : " + e.getUpc() + " | " );
+            });
             System.out.println("===============================================");
             break;
         case "3": 
@@ -171,8 +204,18 @@ public class Client {
 
             System.out.println("===============================================");
             break;  
-        default: break;
-       }  
+        default: 
+            System.out.println("===============================================");
+            infoUsuario = user.findByRFCU(userRfcu);
+            infoUsuario.stream().forEach(e -> {
+            System.out.println("| Empresa: "+e.getRfc() +" | Acciones: " + 
+              e.getNumA() +" | Último precio de compra : " + e.getUpc() + " | " );
+            });
+            System.out.println("============================================= \n");
+            break;
+       }
+      
+        
 
 
     }
