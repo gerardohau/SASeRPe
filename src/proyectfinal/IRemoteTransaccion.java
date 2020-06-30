@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * @author Esthefany
  */
 public interface IRemoteTransaccion extends Remote {
+    public boolean realizarOferta(Transaccion t) throws RemoteException;
     public int save(Transaccion t) throws RemoteException;
     public int update(Transaccion t) throws RemoteException;
     public int delete(Transaccion t) throws RemoteException;
