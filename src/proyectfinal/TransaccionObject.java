@@ -43,7 +43,10 @@ public class TransaccionObject extends UnicastRemoteObject implements IRemoteTra
         ArrayList<Compania> coms = CompaniaRepository.findByRFC(t.getRfc()); 
         ArrayList<Usuario> usuarios = UsuarioRepository.findByRFCU(t.getRfcU());
         ArrayList<Usuario> usuariosVentas = UsuarioRepository.findByCompanyAndRFCU(t.getRfc(),t.getRfcU());
-        boolean acciones = (-1*t.getAccionesOp()) > usuariosVentas.get(0).getNumA();
+        boolean acciones = false;
+        if(!usuariosVentas.isEmpty()){
+            acciones = (-1*t.getAccionesOp()) > usuariosVentas.get(0).getNumA();
+        }
         if(t.getAccionesOp() < 0 && acciones ){
             System.out.println("Intentas vender más de lo que tienes");
             return false;

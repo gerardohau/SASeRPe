@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Competencia extends Thread {
     private ArrayList<Transaccion> ofertas = new ArrayList();
     private String keyCompany;
-    private int sleep= 60000;
+    private int sleep= 10000;
     
     public Competencia(String company){
         keyCompany= company;
